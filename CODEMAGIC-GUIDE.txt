@@ -1,0 +1,69 @@
+NUMBER GOLF — iOS / Codemagic package (1.0)
+
+This folder builds the iPhone (.ipa) version of Number Golf on Codemagic's
+Macs. No Mac of your own needed. You DO need the $99/year Apple Developer
+Program membership — there is no way around that part.
+
+WHAT'S INSIDE
+- www/index.html ............. the game — the current web build: 6 themes
+                               (Arcade, Orbit, Sunset, Candy, Midnight,
+                               Clubhouse), parallax depth backgrounds, 9/18/
+                               Daily modes, demo ad slots
+- ios/ ....................... the Xcode project (bundle id
+                               com.numbergolf.game — same as Android)
+- codemagic.yaml .............. the build recipe Codemagic follows
+- package.json ................ Capacitor 7 dependencies
+
+STEP BY STEP (do these in order, on your computer browser — not your phone)
+
+1. APPLE DEVELOPER ($99/year, required)
+   - Go to developer.apple.com/programs/ and enroll in the Apple Developer
+     Program. It can take a day or two for Apple to approve you.
+
+2. PUT THIS PROJECT ON GITHUB (Codemagic builds from a repo, not a zip)
+   - Make a free account at github.com.
+   - Create a new repository (any name, e.g. numbergolf-ios). Private is fine.
+   - Upload every file and folder from THIS package into it
+     (www/, ios/, codemagic.yaml, package.json, package-lock.json).
+     Do NOT upload node_modules or Pods if you see them — Codemagic
+     installs those itself.
+
+3. CONNECT CODEMAGIC
+   - Sign up at codemagic.io (free tier exists).
+   - "Add application" > choose your GitHub repo.
+   - Codemagic will find codemagic.yaml automatically and show the
+     "Number Golf iOS" workflow.
+
+4. CONNECT YOUR APPLE ACCOUNT (for signing the app)
+   - In Codemagic: Teams > your team > Integrations > Apple Developer Portal >
+     Connect. You'll create an App Store Connect API key at
+     appstoreconnect.apple.com > Users and Access > Integrations > App Store
+     Connect API, and paste the Issuer ID, Key ID, and private key into
+     Codemagic. This lets Codemagic create the signing certificates for you.
+
+5. BUILD
+   - Open your app in Codemagic > "Number Golf iOS" workflow > Start new build.
+   - First build takes ~10-20 minutes. If it fails, the log tells you which
+     step — the usual culprit is the signing integration in step 4.
+
+6. TEST ON YOUR IPHONE (before the App Store)
+   - The workflow is set to submit each successful build to TestFlight
+     automatically (submit_to_testflight: true).
+   - Install Apple's "TestFlight" app on your iPhone, accept your own
+     invite, and install Number Golf from there.
+   - TestFlight builds for just yourself go through a light, fast check —
+     much quicker than the full App Store review.
+
+7. APP STORE (when you're happy with the test build)
+   - In App Store Connect, submit the tested build for full review
+     (usually 1-2 days). Then it goes live in the store.
+
+NOTES
+- Bundle ID com.numbergolf.game must also be registered in your Apple
+  Developer account (Codemagic's fetch-signing-files --create handles most
+  of this automatically).
+- The game runs fully offline; no server or backend needed.
+- The demo ad slots in the game are placeholders — real AdMob ads need the
+  native ad plugin wired in before the store release (same as Android).
+- This package was NOT compiled here (no macOS/Xcode on this machine) —
+  Codemagic's Macs do the actual build.
